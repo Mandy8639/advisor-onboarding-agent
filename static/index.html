@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>advisor-onboarding-agent</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,650&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="/static/styles.css"/>
+</head>
+<body>
+  <div class="atmosphere" aria-hidden="true"></div>
+  <header class="hero">
+    <p class="eyebrow">Synthetic demo · not affiliated with Savvy Wealth</p>
+    <h1>advisor-onboarding-agent</h1>
+    <p class="lede">Parse a firm’s book, validate the household, pass two human gates, draft a cited migration plan — then log-only import. Never moves money.</p>
+  </header>
+
+  <main class="layout">
+    <section class="panel" id="run-panel">
+      <div class="panel-head">
+        <h2>Run a household</h2>
+        <span class="badge">Gate flow</span>
+      </div>
+      <form id="run-form" class="run-form">
+        <label>
+          Household
+          <select id="household-select" required></select>
+        </label>
+        <label class="check">
+          <input type="checkbox" id="auto-gates"/>
+          Auto-approve gates (demo only)
+        </label>
+        <button type="submit">Run pipeline</button>
+      </form>
+      <ol class="flow" id="flow-steps">
+        <li data-step="parse">Parse</li>
+        <li data-step="validate">Validate</li>
+        <li data-step="gate1">Gate 1</li>
+        <li data-step="draft">Draft plan</li>
+        <li data-step="gate2">Gate 2</li>
+        <li data-step="import">Import stub</li>
+      </ol>
+    </section>
+
+    <section class="panel" id="result-panel">
+      <div class="panel-head">
+        <h2>Result</h2>
+        <span id="verdict-badge" class="badge">idle</span>
+      </div>
+      <div id="result-body" class="stack muted">Pick a household and run the pipeline.</div>
+    </section>
+
+    <section class="panel" id="eval-panel">
+      <div class="panel-head">
+        <h2>Measured stub eval</h2>
+        <span class="badge badge-teal">$0</span>
+      </div>
+      <div id="eval-table"></div>
+      <p class="muted">Numbers come from the committed stub report — never typed from memory.</p>
+    </section>
+
+    <section class="panel" id="review-panel">
+      <div class="panel-head">
+        <h2>Review queue</h2>
+        <button type="button" class="ghost" id="refresh-review">Refresh</button>
+      </div>
+      <div id="review-list" class="stack muted">Loading…</div>
+    </section>
+  </main>
+
+  <footer class="site-foot">
+    All data is synthetic. This demo is not affiliated with, endorsed by, or used by Savvy Wealth.
+    The agent cannot move money, change a holding, or contact a client.
+  </footer>
+  <script src="/static/app.js"></script>
+</body>
+</html>

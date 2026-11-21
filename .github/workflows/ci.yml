@@ -1,0 +1,40 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install
+        run: pip install -e ".[dev]"
+      - name: Lint and format
+        run: |
+          ruff check .
+          ruff format --check .
+      - name: Tests
+        run: pytest
+      - name: Stub eval ($0)
+        run: python -m evals.run_evals --mode stub
+      - name: README numbers match stub report
+        run: python -m evals.readme_check
+      - name: Secret scan (no .env, no key-shaped strings in tracked files)
+        run: |
+          if git ls-files | grep -E '(^|/)\.env$'; then
+            echo "Tracked .env file found" >&2
+            exit 1
+          fi
+          if git grep -nE 'sk-[a-zA-Z0-9]{20,}|AKIA[0-9A-Z]{16}|xox[baprs]-' -- ':!.github/**' ':!evals/reports/**' || true; then
+            matches=$(git grep -nE 'sk-[a-zA-Z0-9]{20,}|AKIA[0-9A-Z]{16}|xox[baprs]-' -- ':!.github/**' ':!evals/reports/**' || true)
+            if [ -n "$matches" ]; then
+              echo "$matches" >&2
+              exit 1
+            fi
+          fi
+          echo "Secret scan clean"
